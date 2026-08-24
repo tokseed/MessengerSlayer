@@ -1,0 +1,20 @@
+<Window xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:vm="using:Messenger.Client.ViewModels" x:Class="Messenger.Client.Views.MainWindow" x:DataType="vm:ShellViewModel" Width="1180" Height="760" MinWidth="920" MinHeight="620" Title="Messenger" Icon="/Assets/Icons/Messenger.ico" WindowDecorations="None" CanResize="True">
+  <Grid RowDefinitions="38,*" Background="{DynamicResource Brush.App}">
+    <Border Grid.Row="0" Background="{DynamicResource Brush.App}" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="0,0,0,1">
+      <Grid ColumnDefinitions="*,Auto">
+        <Grid Grid.Column="0" Background="Transparent" PointerPressed="TitleBar_OnPointerPressed">
+        <StackPanel Margin="12,0,0,0" Orientation="Horizontal" Spacing="9" VerticalAlignment="Center" IsHitTestVisible="False">
+          <Border Width="22" Height="22" Background="{DynamicResource Brush.TextPrimary}" CornerRadius="6"><Path Width="13" Height="13" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Fill="{DynamicResource Brush.App}" Data="{StaticResource Icon.Brand}"/></Border>
+          <TextBlock VerticalAlignment="Center" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource Brush.TextSecondary}" Text="Messenger"/>
+        </StackPanel>
+        </Grid>
+        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Stretch">
+          <Button Classes="window-button" ToolTip.Tip="Свернуть" Click="MinimizeButton_OnClick"><Path Width="14" Height="14" Stretch="Uniform" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.35" StrokeLineCap="Round" Data="{StaticResource Icon.WindowMinimize}"/></Button>
+          <Button x:Name="MaximizeRestoreButton" Classes="window-button" ToolTip.Tip="Развернуть" Click="MaximizeRestoreButton_OnClick"><Grid><Path x:Name="MaximizeIcon" Width="13" Height="13" Stretch="Uniform" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.25" StrokeJoin="Miter" Data="{StaticResource Icon.WindowMaximize}"/><Path x:Name="RestoreIcon" Width="13" Height="13" Stretch="Uniform" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.25" StrokeJoin="Miter" IsVisible="False" Data="{StaticResource Icon.WindowRestore}"/></Grid></Button>
+          <Button Classes="window-button close" ToolTip.Tip="Закрыть" Click="CloseButton_OnClick"><Path Width="13" Height="13" Stretch="Uniform" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.3" StrokeLineCap="Round" Data="{StaticResource Icon.WindowClose}"/></Button>
+        </StackPanel>
+      </Grid>
+    </Border>
+    <TransitioningContentControl Grid.Row="1" Content="{Binding CurrentPage}"><TransitioningContentControl.PageTransition><CrossFade Duration="0:0:0.16"/></TransitioningContentControl.PageTransition></TransitioningContentControl>
+  </Grid>
+</Window>
