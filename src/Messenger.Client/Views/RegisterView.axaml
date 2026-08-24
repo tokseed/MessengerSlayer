@@ -1,0 +1,18 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:vm="using:Messenger.Client.ViewModels" x:Class="Messenger.Client.Views.RegisterView" x:DataType="vm:RegisterViewModel">
+  <Grid Background="{DynamicResource Brush.App}">
+    <Border Width="430" Padding="32" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{DynamicResource Brush.Panel}" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="1" CornerRadius="16" Classes="soft-enter">
+      <StackPanel>
+        <Button Width="36" HorizontalAlignment="Left" Classes="icon-button" ToolTip.Tip="Назад" Command="{Binding BackCommand}"><Path Width="15" Height="15" Stretch="Uniform" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.7" StrokeLineCap="Round" StrokeJoin="Round" Data="{StaticResource Icon.Back}"/></Button>
+        <TextBlock Margin="0,20,0,0" FontSize="25" FontWeight="SemiBold" Text="Создать аккаунт"/>
+        <TextBlock Margin="0,7,0,26" FontSize="13" Foreground="{DynamicResource Brush.TextSecondary}" Text="Заполните основные данные"/>
+        <TextBlock Margin="1,0,0,7" FontSize="12" Foreground="{DynamicResource Brush.TextSecondary}" Text="Имя пользователя"/><TextBox Classes="field" PlaceholderText="username" Text="{Binding Username}"/>
+        <TextBlock Margin="1,16,0,7" FontSize="12" Foreground="{DynamicResource Brush.TextSecondary}" Text="Отображаемое имя"/><TextBox Classes="field" PlaceholderText="Ваше имя" Text="{Binding DisplayName}"/>
+        <TextBlock Margin="1,16,0,7" FontSize="12" Foreground="{DynamicResource Brush.TextSecondary}" Text="Пароль"/><TextBox Classes="field" PasswordChar="●" PlaceholderText="Пароль" Text="{Binding Password}"/>
+        <TextBlock Margin="1,16,0,7" FontSize="12" Foreground="{DynamicResource Brush.TextSecondary}" Text="Повторите пароль"/><TextBox Classes="field" PasswordChar="●" PlaceholderText="Повторите пароль" Text="{Binding ConfirmPassword}"/>
+        <Button Margin="0,22,0,0" Classes="primary" Content="Создать аккаунт" Command="{Binding RegisterCommand}"/>
+        <ProgressBar Margin="0,14,0,0" Height="2" IsIndeterminate="True" IsVisible="{Binding IsBusy}"/>
+        <TextBlock Margin="0,12,0,0" MinHeight="18" FontSize="12" Foreground="{DynamicResource Brush.Danger}" TextWrapping="Wrap" Text="{Binding StatusText}"/>
+      </StackPanel>
+    </Border>
+  </Grid>
+</UserControl>
