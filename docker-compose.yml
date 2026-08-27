@@ -1,0 +1,22 @@
+name: messengerslayer
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    platform: linux/amd64
+    container_name: messengerslayer-sql
+    restart: unless-stopped
+
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Developer"
+      MSSQL_SA_PASSWORD: "${MSSQL_SA_PASSWORD:-Your_password123}"
+
+    ports:
+      - "${MSSQL_HOST_PORT:-1433}:1433"
+
+    volumes:
+      - messengerslayer_sql_data:/var/opt/mssql
+
+volumes:
+  messengerslayer_sql_data:

@@ -1,0 +1,27 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style Selector="Control.fade-in">
+        <Style.Animations>
+            <Animation Duration="0:0:0.18" FillMode="Forward">
+                <KeyFrame Cue="0%"><Setter Property="Opacity" Value="0" /></KeyFrame>
+                <KeyFrame Cue="100%"><Setter Property="Opacity" Value="1" /></KeyFrame>
+            </Animation>
+        </Style.Animations>
+    </Style>
+    <Style Selector="Border.soft-enter">
+        <Style.Animations>
+            <Animation Duration="0:0:0.20" FillMode="Forward">
+                <KeyFrame Cue="0%"><Setter Property="Opacity" Value="0" /></KeyFrame>
+                <KeyFrame Cue="100%"><Setter Property="Opacity" Value="1" /></KeyFrame>
+            </Animation>
+        </Style.Animations>
+    </Style>
+    <Style Selector="StackPanel.soft-enter">
+        <Style.Animations>
+            <Animation Duration="0:0:0.20" FillMode="Forward">
+                <KeyFrame Cue="0%"><Setter Property="Opacity" Value="0" /></KeyFrame>
+                <KeyFrame Cue="100%"><Setter Property="Opacity" Value="1" /></KeyFrame>
+            </Animation>
+        </Style.Animations>
+    </Style>
+</Styles>
