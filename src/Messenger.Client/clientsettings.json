@@ -1,0 +1,7 @@
+{
+  "host": "localhost",
+  "port": 5000,
+  "useTls": true,
+  "pinnedCertificatePath": "Certs/server.crt",
+  "chatSyncIntervalMilliseconds": 1500
+}

@@ -1,0 +1,185 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Messenger.Client.ViewModels"
+             x:Class="Messenger.Client.Views.SettingsView"
+             x:DataType="vm:SettingsViewModel">
+  <ScrollViewer>
+    <Grid MinHeight="760"
+          Background="{DynamicResource Brush.App}">
+      <Grid Width="640"
+            Margin="32"
+            HorizontalAlignment="Center">
+        <StackPanel Classes="soft-enter">
+          <StackPanel Orientation="Horizontal"
+                      Spacing="12">
+            <Button Classes="icon-button"
+                    ToolTip.Tip="Назад"
+                    Command="{Binding BackCommand}">
+              <Path Width="15"
+                    Height="15"
+                    Stretch="Uniform"
+                    Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"
+                    StrokeThickness="1.7"
+                    StrokeLineCap="Round"
+                    StrokeJoin="Round"
+                    Data="{StaticResource Icon.Back}"/>
+            </Button>
+
+            <TextBlock VerticalAlignment="Center"
+                       FontSize="23"
+                       FontWeight="SemiBold"
+                       Text="Настройки"/>
+          </StackPanel>
+
+          <Border Margin="0,26,0,0"
+                  Classes="section-card">
+            <Grid ColumnDefinitions="92,*">
+              <StackPanel Grid.Column="0"
+                          HorizontalAlignment="Center"
+                          Spacing="7">
+                <Border Width="76"
+                        Height="76"
+                        Background="{DynamicResource Brush.Surface}"
+                        BorderBrush="{DynamicResource Brush.Border}"
+                        BorderThickness="1"
+                        CornerRadius="38"
+                        ClipToBounds="True">
+                  <Grid>
+                    <Path Width="27"
+                          Height="27"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Stretch="Uniform"
+                          Stroke="{DynamicResource Brush.TextSecondary}"
+                          StrokeThickness="1.45"
+                          StrokeLineCap="Round"
+                          Data="{StaticResource Icon.User}"
+                          IsVisible="{Binding HasNoAvatar}"/>
+                    <Image Source="{Binding AvatarImage}"
+                           Stretch="UniformToFill"
+                           IsVisible="{Binding HasAvatar}"/>
+                  </Grid>
+                </Border>
+
+                <Button Classes="text-button"
+                        Content="Изменить"
+                        Command="{Binding ChooseAvatarCommand}"/>
+
+                <Button Classes="text-button"
+                        Content="Удалить"
+                        IsVisible="{Binding HasAvatar}"
+                        Command="{Binding RemoveAvatarCommand}"/>
+              </StackPanel>
+
+              <StackPanel Grid.Column="1"
+                          Margin="18,0,0,0">
+                <TextBlock FontSize="17"
+                           FontWeight="SemiBold"
+                           Text="{Binding DisplayName}"/>
+
+                <TextBlock Margin="0,4,0,0"
+                           FontSize="11"
+                           Foreground="{DynamicResource Brush.TextMuted}"
+                           Text="{Binding Username}"/>
+
+                <Grid Margin="0,18,0,0"
+                      ColumnDefinitions="*,12,*">
+                  <StackPanel Grid.Column="0">
+                    <TextBlock FontSize="11"
+                               Foreground="{DynamicResource Brush.TextSecondary}"
+                               Text="Имя"/>
+                    <TextBlock Margin="0,5,0,0"
+                               FontSize="13"
+                               Text="{Binding FirstName}"/>
+                  </StackPanel>
+
+                  <StackPanel Grid.Column="2">
+                    <TextBlock FontSize="11"
+                               Foreground="{DynamicResource Brush.TextSecondary}"
+                               Text="Фамилия"/>
+                    <TextBlock Margin="0,5,0,0"
+                               FontSize="13"
+                               Text="{Binding LastName}"/>
+                  </StackPanel>
+                </Grid>
+
+                <TextBlock Margin="0,16,0,6"
+                           FontSize="11"
+                           Foreground="{DynamicResource Brush.TextSecondary}"
+                           Text="Email"/>
+                <TextBox Classes="field"
+                         PlaceholderText="name@example.com"
+                         Text="{Binding Email}"/>
+
+                <TextBlock Margin="0,14,0,0"
+                           FontSize="11"
+                           Foreground="{DynamicResource Brush.TextSecondary}"
+                           Text="Телефон"/>
+                <TextBlock Margin="0,5,0,0"
+                           FontSize="13"
+                           Text="{Binding PhoneNumber}"/>
+
+                <Grid Margin="0,18,0,0"
+                      ColumnDefinitions="*,Auto">
+                  <TextBlock VerticalAlignment="Center"
+                             FontSize="11"
+                             Foreground="{DynamicResource Brush.TextSecondary}"
+                             TextWrapping="Wrap"
+                             Text="{Binding ProfileStatusText}"/>
+                  <Button Grid.Column="1"
+                          Margin="12,0,0,0"
+                          MinWidth="150"
+                          Classes="primary"
+                          Content="Сохранить профиль"
+                          Command="{Binding SaveProfileCommand}"/>
+                </Grid>
+              </StackPanel>
+            </Grid>
+          </Border>
+
+          <Border Margin="0,14,0,0"
+                  Classes="section-card">
+            <StackPanel Spacing="18">
+              <Grid ColumnDefinitions="*,Auto">
+                <StackPanel>
+                  <TextBlock FontSize="13"
+                             FontWeight="SemiBold"
+                             Text="Уведомления"/>
+                  <TextBlock Margin="0,4,0,0"
+                             FontSize="11"
+                             Foreground="{DynamicResource Brush.TextMuted}"
+                             Text="Показывать уведомления о новых сообщениях"/>
+                </StackPanel>
+                <ToggleSwitch Grid.Column="1"
+                              IsChecked="{Binding NotificationsEnabled}"/>
+              </Grid>
+
+              <Border Height="1"
+                      Background="{DynamicResource Brush.Border}"/>
+
+              <Grid ColumnDefinitions="*,Auto">
+                <StackPanel>
+                  <TextBlock FontSize="13"
+                             FontWeight="SemiBold"
+                             Text="Запуск вместе с системой"/>
+                  <TextBlock Margin="0,4,0,0"
+                             FontSize="11"
+                             Foreground="{DynamicResource Brush.TextMuted}"
+                             Text="Открывать Messenger после входа в систему"/>
+                </StackPanel>
+                <ToggleSwitch Grid.Column="1"
+                              IsChecked="{Binding LaunchOnStartup}"/>
+              </Grid>
+            </StackPanel>
+          </Border>
+
+          <Button Margin="0,20,0,30"
+                  HorizontalAlignment="Left"
+                  Classes="danger-button"
+                  Content="Выйти из аккаунта"
+                  Command="{Binding LogoutCommand}"/>
+        </StackPanel>
+      </Grid>
+    </Grid>
+  </ScrollViewer>
+</UserControl>
