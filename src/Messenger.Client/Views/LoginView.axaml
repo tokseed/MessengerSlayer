@@ -1,0 +1,27 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:vm="using:Messenger.Client.ViewModels" x:Class="Messenger.Client.Views.LoginView" x:DataType="vm:LoginViewModel">
+  <Grid Background="{DynamicResource Brush.App}">
+    <Grid ColumnDefinitions="1.1*,0.9*" MaxWidth="1080" HorizontalAlignment="Center">
+      <StackPanel Grid.Column="0" Margin="72,64,48,64" MaxWidth="450" VerticalAlignment="Center" Classes="soft-enter">
+        <Border Width="54" Height="54" HorizontalAlignment="Left" Background="{DynamicResource Brush.TextPrimary}" CornerRadius="15"><Path Width="29" Height="29" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Fill="{DynamicResource Brush.App}" Data="{StaticResource Icon.Brand}"/></Border>
+        <TextBlock Margin="0,30,0,0" FontSize="41" FontWeight="SemiBold" LetterSpacing="-0.5" Text="Messenger"/>
+        <TextBlock Margin="0,13,0,0" MaxWidth="390" FontSize="15" LineHeight="23" Foreground="{DynamicResource Brush.TextSecondary}" TextWrapping="Wrap" Text="Личные и групповые разговоры в одном спокойном интерфейсе."/>
+      </StackPanel>
+      <Grid Grid.Column="1" Margin="30">
+        <Border Width="390" Padding="32" VerticalAlignment="Center" Background="{DynamicResource Brush.Panel}" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="1" CornerRadius="16" Classes="soft-enter">
+          <StackPanel>
+            <TextBlock FontSize="25" FontWeight="SemiBold" Text="Вход"/>
+            <TextBlock Margin="0,7,0,28" FontSize="13" Foreground="{DynamicResource Brush.TextSecondary}" Text="Введите данные учётной записи"/>
+            <TextBlock Margin="1,0,0,7" FontSize="12" Foreground="{DynamicResource Brush.TextSecondary}" Text="Имя пользователя"/>
+            <TextBox Classes="field" PlaceholderText="Имя пользователя" Text="{Binding Username}"/>
+            <TextBlock Margin="1,18,0,7" FontSize="12" Foreground="{DynamicResource Brush.TextSecondary}" Text="Пароль"/>
+            <TextBox Classes="field" PasswordChar="●" PlaceholderText="Пароль" Text="{Binding Password}"/>
+            <Button Margin="0,24,0,0" Classes="primary" Content="Продолжить" Command="{Binding LoginCommand}"/>
+            <ProgressBar Margin="0,15,0,0" Height="2" IsIndeterminate="True" IsVisible="{Binding IsBusy}"/>
+            <TextBlock Margin="0,13,0,0" MinHeight="18" FontSize="12" Foreground="{DynamicResource Brush.Danger}" TextWrapping="Wrap" Text="{Binding StatusText}"/>
+            <StackPanel Margin="0,18,0,0" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="4"><TextBlock VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource Brush.TextMuted}" Text="Нет аккаунта?"/><Button Classes="text-button" Content="Создать" Command="{Binding OpenRegisterCommand}"/></StackPanel>
+          </StackPanel>
+        </Border>
+      </Grid>
+    </Grid>
+  </Grid>
+</UserControl>

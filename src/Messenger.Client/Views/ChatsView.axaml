@@ -1,0 +1,246 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Messenger.Client.ViewModels"
+             xmlns:ui="using:Messenger.Client.UIModels"
+             x:Class="Messenger.Client.Views.ChatsView"
+             x:DataType="vm:ChatsViewModel">
+  <Grid ColumnDefinitions="316,*" Background="{DynamicResource Brush.App}" Classes="fade-in">
+    <Border Grid.Column="0" Background="{DynamicResource Brush.Sidebar}" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="0,0,1,0">
+      <Grid RowDefinitions="Auto,Auto,*,Auto">
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="18,18,14,14">
+          <TextBlock VerticalAlignment="Center" FontSize="20" FontWeight="SemiBold" Text="Messenger"/>
+          <Button Grid.Column="1" Classes="icon-button" ToolTip.Tip="Новый чат" Command="{Binding CreateChatCommand}">
+            <Path Width="16" Height="16" Stretch="Uniform" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.7" StrokeLineCap="Round" Data="{StaticResource Icon.Plus}"/>
+          </Button>
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="14,0,14,10">
+          <TextBox Classes="search-field" PlaceholderText="Поиск" Text="{Binding SearchText}"/>
+          <Path Width="15" Height="15" Margin="13,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" IsHitTestVisible="False" Stroke="{DynamicResource Brush.TextMuted}" StrokeThickness="1.6" StrokeLineCap="Round" Data="{StaticResource Icon.Search}"/>
+        </Grid>
+
+        <Grid Grid.Row="2">
+          <ListBox Margin="8,0,8,10" Classes="chat-list" ItemsSource="{Binding Chats}" SelectedItem="{Binding SelectedChat}" IsVisible="{Binding HasChats}">
+            <ListBox.ItemTemplate>
+              <DataTemplate x:DataType="ui:ChatListItem">
+                <Grid ColumnDefinitions="48,*,Auto" Margin="9,8">
+                  <Grid Width="40" Height="40">
+                    <Border Background="{DynamicResource Brush.Surface}"
+                            BorderBrush="{DynamicResource Brush.Border}"
+                            BorderThickness="1"
+                            CornerRadius="20"
+                            ClipToBounds="True">
+                      <Grid>
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="12"
+                                   FontWeight="SemiBold"
+                                   Text="{Binding Initials}"
+                                   IsVisible="{Binding HasNoAvatar}"/>
+                        <Image Source="{Binding AvatarImage}"
+                               Stretch="UniformToFill"
+                               IsVisible="{Binding HasAvatar}"/>
+                      </Grid>
+                    </Border>
+                    <Ellipse Width="9" Height="9" HorizontalAlignment="Right" VerticalAlignment="Bottom" Fill="{DynamicResource Brush.Online}" Stroke="{DynamicResource Brush.Sidebar}" StrokeThickness="2" IsVisible="{Binding IsOnline}"/>
+                  </Grid>
+
+                  <StackPanel Grid.Column="1" Margin="10,1,8,0">
+                    <TextBlock FontSize="13" FontWeight="SemiBold" Text="{Binding Title}"/>
+                    <TextBlock Margin="0,5,0,0" MaxWidth="180" FontSize="11.5" Foreground="{DynamicResource Brush.TextSecondary}" TextTrimming="CharacterEllipsis" Text="{Binding LastMessage}"/>
+                  </StackPanel>
+
+                  <StackPanel Grid.Column="2" HorizontalAlignment="Right">
+                    <TextBlock FontSize="10" Foreground="{DynamicResource Brush.TextMuted}" Text="{Binding TimeText}"/>
+                    <Border Margin="0,6,0,0" Classes="unread-badge" IsVisible="{Binding HasUnreadMessages}">
+                      <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="9" FontWeight="Bold" Foreground="White" Text="{Binding UnreadText}"/>
+                    </Border>
+                  </StackPanel>
+                </Grid>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </ListBox>
+
+          <StackPanel Margin="30" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="12" Classes="soft-enter" IsVisible="{Binding IsChatListEmpty}">
+            <Path Width="28" Height="28" Stretch="Uniform" Fill="{DynamicResource Brush.TextMuted}" Data="{StaticResource Icon.Brand}"/>
+            <TextBlock HorizontalAlignment="Center" FontSize="13" Foreground="{DynamicResource Brush.TextSecondary}" Text="Чатов пока нет"/>
+            <Button Classes="text-button" Content="Создать первый чат" Command="{Binding CreateChatCommand}"/>
+          </StackPanel>
+        </Grid>
+
+        <Border Grid.Row="3" Margin="10,6,10,10" Padding="8" Background="Transparent" CornerRadius="11">
+          <Grid ColumnDefinitions="40,*,Auto">
+            <Border Width="34"
+                    Height="34"
+                    Background="{DynamicResource Brush.Surface}"
+                    BorderBrush="{DynamicResource Brush.Border}"
+                    BorderThickness="1"
+                    CornerRadius="17"
+                    ClipToBounds="True">
+              <Grid>
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="11"
+                           FontWeight="SemiBold"
+                           Text="{Binding UserInitials}"
+                           IsVisible="{Binding HasNoUserAvatar}"/>
+                <Image Source="{Binding UserAvatarImage}"
+                       Stretch="UniformToFill"
+                       IsVisible="{Binding HasUserAvatar}"/>
+              </Grid>
+            </Border>
+            <TextBlock Grid.Column="1" Margin="9,0,8,0" VerticalAlignment="Center" FontSize="12" FontWeight="SemiBold" Text="{Binding Username}"/>
+            <Button Grid.Column="2" Classes="icon-button" ToolTip.Tip="Настройки" Command="{Binding OpenSettingsCommand}">
+              <Path Width="16" Height="16" Stretch="Uniform" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.45" StrokeLineCap="Round" Data="{StaticResource Icon.Settings}"/>
+            </Button>
+          </Grid>
+        </Border>
+      </Grid>
+    </Border>
+
+    <Grid Grid.Column="1">
+      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="13" Classes="soft-enter" IsVisible="{Binding HasNoSelectedChat}">
+        <Border Width="56" Height="56" Background="{DynamicResource Brush.Panel}" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="1" CornerRadius="28">
+          <Path Width="25" Height="25" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Fill="{DynamicResource Brush.TextSecondary}" Data="{StaticResource Icon.Brand}"/>
+        </Border>
+        <TextBlock HorizontalAlignment="Center" FontSize="15" FontWeight="SemiBold" Text="Выберите чат"/>
+        <TextBlock MaxWidth="250" HorizontalAlignment="Center" TextAlignment="Center" FontSize="12" LineHeight="18" Foreground="{DynamicResource Brush.TextMuted}" TextWrapping="Wrap" Text="Откройте существующий разговор или создайте новый."/>
+      </StackPanel>
+
+      <Grid RowDefinitions="68,Auto,*,Auto" IsVisible="{Binding HasSelectedChat}">
+        <Border Grid.Row="0" Background="{DynamicResource Brush.App}" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="0,0,0,1">
+          <Grid ColumnDefinitions="Auto,*,Auto" Margin="22,0,16,0">
+            <Border Width="36"
+                    Height="36"
+                    Margin="0,0,10,0"
+                    VerticalAlignment="Center"
+                    Background="{DynamicResource Brush.Surface}"
+                    BorderBrush="{DynamicResource Brush.Border}"
+                    BorderThickness="1"
+                    CornerRadius="18"
+                    ClipToBounds="True">
+              <Grid>
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="11"
+                           FontWeight="SemiBold"
+                           Text="{Binding SelectedChat.Initials}"
+                           IsVisible="{Binding SelectedChat.HasNoAvatar}"/>
+                <Image Source="{Binding SelectedChat.AvatarImage}"
+                       Stretch="UniformToFill"
+                       IsVisible="{Binding SelectedChat.HasAvatar}"/>
+              </Grid>
+            </Border>
+
+            <StackPanel Grid.Column="1"
+                        VerticalAlignment="Center">
+              <TextBlock FontSize="15"
+                         FontWeight="SemiBold"
+                         Text="{Binding SelectedChat.Title}"/>
+              <TextBlock Margin="0,4,0,0"
+                         FontSize="11"
+                         Foreground="{DynamicResource Brush.TextMuted}"
+                         Text="Разговор"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="3" VerticalAlignment="Center">
+              <Button Classes="icon-button" ToolTip.Tip="Поиск в сообщениях" Command="{Binding ToggleMessageSearchCommand}">
+                <Path Width="16" Height="16" Stretch="Uniform" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.6" StrokeLineCap="Round" Data="{StaticResource Icon.Search}"/>
+              </Button>
+              <Button Classes="icon-button" ToolTip.Tip="Ещё" Command="{Binding ToggleChatMenuCommand}">
+                <Path Width="16" Height="16" Stretch="Uniform" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" Data="{StaticResource Icon.More}"/>
+              </Button>
+            </StackPanel>
+          </Grid>
+        </Border>
+
+        <Border Grid.Row="1" Margin="20,10,20,0" Padding="9,7" Background="{DynamicResource Brush.Panel}" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="1" CornerRadius="11" IsVisible="{Binding IsMessageSearchVisible}" Classes="soft-enter">
+          <Grid ColumnDefinitions="Auto,*,Auto,Auto">
+            <Path Width="14" Height="14" Margin="5,0,10,0" VerticalAlignment="Center" Stroke="{DynamicResource Brush.TextMuted}" StrokeThickness="1.5" StrokeLineCap="Round" Data="{StaticResource Icon.Search}"/>
+            <TextBox Grid.Column="1" Classes="composer-field" PlaceholderText="Найти сообщение или файл" Text="{Binding MessageSearchText}"/>
+            <TextBlock Grid.Column="2" Margin="10,0" VerticalAlignment="Center" FontSize="10.5" Foreground="{DynamicResource Brush.TextMuted}" Text="{Binding MessageSearchResultText}"/>
+            <Button Grid.Column="3" Classes="icon-button compact" ToolTip.Tip="Закрыть поиск" Command="{Binding CloseMessageSearchCommand}">
+              <Path Width="12" Height="12" Stretch="Uniform" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.4" StrokeLineCap="Round" Data="{StaticResource Icon.Remove}"/>
+            </Button>
+          </Grid>
+        </Border>
+
+        <ScrollViewer Grid.Row="2" Padding="28,22">
+          <ItemsControl ItemsSource="{Binding Messages}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="ui:MessageItem">
+                <Grid Margin="0,3" Classes="fade-in">
+                  <Border Classes="message-bubble" Classes.own="{Binding IsOwn}">
+                    <StackPanel>
+                      <TextBlock IsVisible="{Binding IsTextMessage}" FontSize="13.5" LineHeight="19" TextWrapping="Wrap" Text="{Binding Text}"/>
+
+                      <Border IsVisible="{Binding IsFile}" Classes="file-card">
+                        <Grid ColumnDefinitions="42,*,Auto">
+                          <Border Width="36" Height="36" Background="{DynamicResource Brush.AccentSoft}" CornerRadius="10">
+                            <Path Width="17" Height="17" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Stroke="{DynamicResource Brush.Accent}" StrokeThickness="1.5" StrokeJoin="Round" Data="{StaticResource Icon.File}"/>
+                          </Border>
+                          <StackPanel Grid.Column="1" Margin="10,0,12,0" VerticalAlignment="Center">
+                            <TextBlock MaxWidth="310" FontSize="12.5" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Text="{Binding FileName}"/>
+                            <TextBlock Margin="0,4,0,0" FontSize="10" Foreground="{DynamicResource Brush.TextMuted}" Text="{Binding FileSizeText}"/>
+                          </StackPanel>
+                          <Button Grid.Column="2" Classes="file-save-button" VerticalAlignment="Center" Content="Сохранить" Click="SaveFileButton_OnClick"/>
+                        </Grid>
+                      </Border>
+
+                      <StackPanel Margin="0,5,0,0" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="5">
+                        <TextBlock FontSize="9.5" Foreground="{DynamicResource Brush.TextMuted}" Text="{Binding TimeText}"/>
+                        <TextBlock FontSize="9.5" Foreground="{DynamicResource Brush.Accent}" Text="{Binding StatusText}"/>
+                      </StackPanel>
+                    </StackPanel>
+                  </Border>
+                </Grid>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </ScrollViewer>
+
+        <StackPanel Grid.Row="3" Margin="20,6,20,18">
+          <TextBlock Margin="10,0,0,6" FontSize="10.5" Foreground="{DynamicResource Brush.TextSecondary}" Text="{Binding OperationStatusText}" IsVisible="{Binding HasOperationStatus}"/>
+          <Border Padding="7" Background="{DynamicResource Brush.Panel}" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="1" CornerRadius="15">
+            <Grid ColumnDefinitions="Auto,*,Auto">
+              <Button Grid.Column="0" Classes="icon-button" ToolTip.Tip="Прикрепить файл" Command="{Binding AttachFileCommand}">
+                <Path Width="17" Height="17" Stretch="Uniform" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.55" StrokeLineCap="Round" StrokeJoin="Round" Data="{StaticResource Icon.Attach}"/>
+              </Button>
+              <TextBox x:Name="MessageComposer"
+                       Grid.Column="1"
+                       Margin="4,0,8,0"
+                       Classes="composer-field"
+                       PlaceholderText="Сообщение"
+                       AcceptsReturn="True"
+                       TextWrapping="Wrap"
+                       MaxHeight="120"
+                       Text="{Binding MessageText}"/>
+              <Button Grid.Column="2" Classes="send-button" ToolTip.Tip="Отправить" Command="{Binding SendMessageCommand}">
+                <Path Width="17" Height="17" Stretch="Uniform" Fill="White" Data="{StaticResource Icon.Send}"/>
+              </Button>
+            </Grid>
+          </Border>
+        </StackPanel>
+
+        <Border Grid.RowSpan="4" Margin="0,58,16,0" Width="210" HorizontalAlignment="Right" VerticalAlignment="Top" Classes="chat-popup" IsVisible="{Binding IsChatMenuOpen}">
+          <StackPanel Spacing="4">
+            <TextBlock Margin="9,4,9,7" FontSize="10" Foreground="{DynamicResource Brush.TextMuted}" Text="Управление чатом"/>
+            <TextBlock Margin="9,0,9,7" FontSize="9.5" Foreground="{DynamicResource Brush.TextMuted}" TextWrapping="Wrap" Text="Очистка и удаление — локально на этом устройстве."/>
+            <Button Classes="chat-menu-button" Command="{Binding ClearChatCommand}">
+              <Grid ColumnDefinitions="26,*">
+                <Path Width="14" Height="14" VerticalAlignment="Center" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.4" StrokeLineCap="Round" Data="{StaticResource Icon.Clear}"/>
+                <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="Очистить чат"/>
+              </Grid>
+            </Button>
+            <Button Classes="chat-menu-button danger" Command="{Binding DeleteChatCommand}">
+              <Grid ColumnDefinitions="26,*">
+                <Path Width="14" Height="14" VerticalAlignment="Center" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.4" StrokeLineCap="Round" StrokeJoin="Round" Data="{StaticResource Icon.Trash}"/>
+                <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="Удалить чат"/>
+              </Grid>
+            </Button>
+          </StackPanel>
+        </Border>
+      </Grid>
+    </Grid>
+  </Grid>
+</UserControl>

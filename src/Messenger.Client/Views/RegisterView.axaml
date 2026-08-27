@@ -1,0 +1,173 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Messenger.Client.ViewModels"
+             x:Class="Messenger.Client.Views.RegisterView"
+             x:DataType="vm:RegisterViewModel">
+  <ScrollViewer>
+    <Grid MinHeight="820"
+          Background="{DynamicResource Brush.App}">
+      <Border Width="470"
+              Margin="24"
+              Padding="32"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              Background="{DynamicResource Brush.Panel}"
+              BorderBrush="{DynamicResource Brush.Border}"
+              BorderThickness="1"
+              CornerRadius="16"
+              Classes="soft-enter">
+        <StackPanel>
+          <Button Width="36"
+                  HorizontalAlignment="Left"
+                  Classes="icon-button"
+                  ToolTip.Tip="Назад"
+                  Command="{Binding BackCommand}">
+            <Path Width="15"
+                  Height="15"
+                  Stretch="Uniform"
+                  Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"
+                  StrokeThickness="1.7"
+                  StrokeLineCap="Round"
+                  StrokeJoin="Round"
+                  Data="{StaticResource Icon.Back}"/>
+          </Button>
+
+          <TextBlock Margin="0,20,0,0"
+                     FontSize="25"
+                     FontWeight="SemiBold"
+                     Text="Создать аккаунт"/>
+
+          <TextBlock Margin="0,7,0,20"
+                     FontSize="13"
+                     Foreground="{DynamicResource Brush.TextSecondary}"
+                     Text="Профиль сохраняется в общей базе MessengerSlayer"/>
+
+          <StackPanel HorizontalAlignment="Center"
+                      Spacing="9">
+            <Border Width="82"
+                    Height="82"
+                    Background="{DynamicResource Brush.Surface}"
+                    BorderBrush="{DynamicResource Brush.Border}"
+                    BorderThickness="1"
+                    CornerRadius="41"
+                    ClipToBounds="True">
+              <Grid>
+                <Path Width="29"
+                      Height="29"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Stretch="Uniform"
+                      Stroke="{DynamicResource Brush.TextSecondary}"
+                      StrokeThickness="1.45"
+                      StrokeLineCap="Round"
+                      Data="{StaticResource Icon.User}"
+                      IsVisible="{Binding HasNoAvatar}"/>
+                <Image Source="{Binding AvatarImage}"
+                       Stretch="UniformToFill"
+                       IsVisible="{Binding HasAvatar}"/>
+              </Grid>
+            </Border>
+
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Spacing="6">
+              <Button Classes="text-button"
+                      Content="Выбрать аватар"
+                      Command="{Binding ChooseAvatarCommand}"/>
+              <Button Classes="text-button"
+                      Content="Убрать"
+                      Command="{Binding RemoveAvatarCommand}"
+                      IsVisible="{Binding HasAvatar}"/>
+            </StackPanel>
+
+            <TextBlock FontSize="10"
+                       Foreground="{DynamicResource Brush.TextMuted}"
+                       Text="PNG / JPG / WEBP, до 256 КБ"/>
+          </StackPanel>
+
+          <TextBlock Margin="1,18,0,7"
+                     FontSize="12"
+                     Foreground="{DynamicResource Brush.TextSecondary}"
+                     Text="Имя пользователя"/>
+          <TextBox Classes="field"
+                   PlaceholderText="username"
+                   Text="{Binding Username}"/>
+
+          <Grid Margin="0,16,0,0"
+                ColumnDefinitions="*,12,*">
+            <StackPanel Grid.Column="0">
+              <TextBlock Margin="1,0,0,7"
+                         FontSize="12"
+                         Foreground="{DynamicResource Brush.TextSecondary}"
+                         Text="Имя"/>
+              <TextBox Classes="field"
+                       PlaceholderText="Имя"
+                       Text="{Binding FirstName}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="2">
+              <TextBlock Margin="1,0,0,7"
+                         FontSize="12"
+                         Foreground="{DynamicResource Brush.TextSecondary}"
+                         Text="Фамилия"/>
+              <TextBox Classes="field"
+                       PlaceholderText="Фамилия"
+                       Text="{Binding LastName}"/>
+            </StackPanel>
+          </Grid>
+
+          <TextBlock Margin="1,16,0,7"
+                     FontSize="12"
+                     Foreground="{DynamicResource Brush.TextSecondary}"
+                     Text="Email"/>
+          <TextBox Classes="field"
+                   PlaceholderText="name@example.com"
+                   Text="{Binding Email}"/>
+
+          <TextBlock Margin="1,16,0,7"
+                     FontSize="12"
+                     Foreground="{DynamicResource Brush.TextSecondary}"
+                     Text="Телефон"/>
+          <TextBox Classes="field"
+                   PlaceholderText="+7..."
+                   Text="{Binding PhoneNumber}"/>
+
+          <TextBlock Margin="1,16,0,7"
+                     FontSize="12"
+                     Foreground="{DynamicResource Brush.TextSecondary}"
+                     Text="Пароль"/>
+          <TextBox Classes="field"
+                   PasswordChar="●"
+                   PlaceholderText="Пароль"
+                   Text="{Binding Password}"/>
+
+          <TextBlock Margin="1,16,0,7"
+                     FontSize="12"
+                     Foreground="{DynamicResource Brush.TextSecondary}"
+                     Text="Повторите пароль"/>
+          <TextBox Classes="field"
+                   PasswordChar="●"
+                   PlaceholderText="Повторите пароль"
+                   Text="{Binding ConfirmPassword}"/>
+
+          <Button Margin="0,22,0,0"
+                  Classes="primary"
+                  Content="Создать аккаунт"
+                  Command="{Binding RegisterCommand}"/>
+
+          <ProgressBar Margin="0,14,0,0"
+                       Height="2"
+                       IsIndeterminate="True"
+                       IsVisible="{Binding IsBusy}"/>
+
+          <TextBlock Margin="0,12,0,0"
+                     MinHeight="18"
+                     FontSize="12"
+                     Foreground="{DynamicResource Brush.Danger}"
+                     TextWrapping="Wrap"
+                     Text="{Binding StatusText}"/>
+        </StackPanel>
+      </Border>
+    </Grid>
+  </ScrollViewer>
+</UserControl>

@@ -3,46 +3,88 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Messenger.Server.Database;
 using Messenger.Server.Network;
-using Messenger.Server.Services;
 
-var configuration = new ConfigurationBuilder()
-    .SetBasePath(Directory.GetCurrentDirectory())
-    .AddJsonFile("appsettings.json", optional: false)
-    .Build();
+IConfigurationRoot configuration =
+    new ConfigurationBuilder()
+        .SetBasePath(
+            Directory.GetCurrentDirectory())
+        .AddJsonFile(
+            "appsettings.json",
+            optional: false)
+        .Build();
 
-var connectionString = configuration.GetConnectionString("DefaultConnection");
-var port = configuration.GetValue<int>("TcpServer:Port");
-var certPath = configuration.GetValue<string>("TcpServer:CertificatePath") ?? "Certs/server.pfx";
-var certPassword = configuration.GetValue<string>("TcpServer:CertificatePassword") ?? "";
+string? connectionString =
+    configuration.GetConnectionString(
+        "DefaultConnection");
 
-var certificate = X509CertificateLoader.LoadPkcs12FromFile(certPath, certPassword);
-Console.WriteLine($"Certificate loaded: {certificate.Subject}");
-
-var dbContextOptions = new DbContextOptionsBuilder<MessengerDbContext>()
-    .UseSqlServer(connectionString)
-    .Options;
-
-using var db = new MessengerDbContext(dbContextOptions);
-await db.Database.EnsureCreatedAsync();
-
-var authService = new AuthService(db);
-var messageService = new MessageService(db);
-var chatService = new ChatService(db);
-
-var server = new TcpServer(port, certificate, authService, messageService, chatService);
-
-using var cts = new CancellationTokenSource();
-Console.CancelKeyPress += (_, e) =>
+if (string.IsNullOrWhiteSpace(
+        connectionString))
 {
-    e.Cancel = true;
-    cts.Cancel();
-};
+    throw new InvalidOperationException(
+        "DefaultConnection is missing.");
+}
+
+int port =
+    configuration.GetValue<int>(
+        "TcpServer:Port");
+
+string certPath =
+    configuration.GetValue<string>(
+        "TcpServer:CertificatePath") ??
+    "Certs/server.pfx";
+
+string certPassword =
+    configuration.GetValue<string>(
+        "TcpServer:CertificatePassword") ??
+    string.Empty;
+
+X509Certificate2 certificate =
+    X509CertificateLoader.LoadPkcs12FromFile(
+        certPath,
+        certPassword);
+
+Console.WriteLine(
+    $"Certificate loaded: {certificate.Subject}");
+
+DbContextOptions<MessengerDbContext> dbContextOptions =
+    new DbContextOptionsBuilder<MessengerDbContext>()
+        .UseSqlServer(
+            connectionString)
+        .Options;
+
+// Database initialization gets its own short-lived context.
+// Runtime clients never share this instance.
+await using (MessengerDbContext setupDb =
+             new(dbContextOptions))
+{
+    await setupDb.Database.EnsureCreatedAsync();
+}
+
+TcpServer server =
+    new(
+        port,
+        certificate,
+        dbContextOptions);
+
+using CancellationTokenSource cts =
+    new();
+
+Console.CancelKeyPress +=
+    (_, eventArgs) =>
+    {
+        eventArgs.Cancel =
+            true;
+
+        cts.Cancel();
+    };
 
 try
 {
-    await server.StartAsync(cts.Token);
+    await server.StartAsync(
+        cts.Token);
 }
 catch (OperationCanceledException)
 {
-    Console.WriteLine("Server stopped.");
+    Console.WriteLine(
+        "Server stopped.");
 }
