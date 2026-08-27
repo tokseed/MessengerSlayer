@@ -1,0 +1,14 @@
+/Users/pasavoronkov/Documents/programm/MessangerРазработка/server/TCP_Chat_/Client_TCP/bin/Debug/net10.0/Client_TCP
+/Users/pasavoronkov/Documents/programm/MessangerРазработка/server/TCP_Chat_/Client_TCP/bin/Debug/net10.0/Client_TCP.deps.json
+/Users/pasavoronkov/Documents/programm/MessangerРазработка/server/TCP_Chat_/Client_TCP/bin/Debug/net10.0/Client_TCP.runtimeconfig.json
+/Users/pasavoronkov/Documents/programm/MessangerРазработка/server/TCP_Chat_/Client_TCP/bin/Debug/net10.0/Client_TCP.dll
+/Users/pasavoronkov/Documents/programm/MessangerРазработка/server/TCP_Chat_/Client_TCP/bin/Debug/net10.0/Client_TCP.pdb
+/Users/pasavoronkov/Documents/programm/MessangerРазработка/server/TCP_Chat_/Client_TCP/obj/Debug/net10.0/Client_TCP.GeneratedMSBuildEditorConfig.editorconfig
+/Users/pasavoronkov/Documents/programm/MessangerРазработка/server/TCP_Chat_/Client_TCP/obj/Debug/net10.0/Client_TCP.AssemblyInfoInputs.cache
+/Users/pasavoronkov/Documents/programm/MessangerРазработка/server/TCP_Chat_/Client_TCP/obj/Debug/net10.0/Client_TCP.AssemblyInfo.cs
+/Users/pasavoronkov/Documents/programm/MessangerРазработка/server/TCP_Chat_/Client_TCP/obj/Debug/net10.0/Client_TCP.csproj.CoreCompileInputs.cache
+/Users/pasavoronkov/Documents/programm/MessangerРазработка/server/TCP_Chat_/Client_TCP/obj/Debug/net10.0/Client_TCP.dll
+/Users/pasavoronkov/Documents/programm/MessangerРазработка/server/TCP_Chat_/Client_TCP/obj/Debug/net10.0/refint/Client_TCP.dll
+/Users/pasavoronkov/Documents/programm/MessangerРазработка/server/TCP_Chat_/Client_TCP/obj/Debug/net10.0/Client_TCP.pdb
+/Users/pasavoronkov/Documents/programm/MessangerРазработка/server/TCP_Chat_/Client_TCP/obj/Debug/net10.0/Client_TCP.genruntimeconfig.cache
+/Users/pasavoronkov/Documents/programm/MessangerРазработка/server/TCP_Chat_/Client_TCP/obj/Debug/net10.0/ref/Client_TCP.dll
