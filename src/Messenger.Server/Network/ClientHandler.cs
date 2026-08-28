@@ -213,6 +213,11 @@ public sealed class ClientHandler
                 packet.AvatarUrl,
                 cancellationToken);
 
+        Console.WriteLine(
+            result.IsSuccess
+                ? $"User registered: UserId={result.UserId}, Username={packet.Username}"
+                : $"User registration rejected: {result.ErrorMessage}");
+
         return new RegisterResponsePacket
         {
             Success =
